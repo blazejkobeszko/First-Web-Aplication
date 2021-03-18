@@ -2,10 +2,8 @@
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using Pierwszy_projekt.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
+using Newtonsoft.Json;
 
 namespace Pierwszy_projekt.Pages
 {
@@ -39,12 +37,14 @@ namespace Pierwszy_projekt.Pages
         }
         public IActionResult OnPost()
         {
-            if (!ModelState.IsValid)
+            if (ModelState.IsValid)
             {
-                return Page();
+                HttpContext.Session.SetString("SessionAddress", JsonConvert.SerializeObject(Address));
+                return RedirectToPage("./Address");
             }
-            return RedirectToPage("./Privacy");
+            return Page();
         }
+
 
     }
 }
